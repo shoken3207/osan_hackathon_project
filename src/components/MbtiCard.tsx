@@ -21,7 +21,7 @@ const MbtiCard = ({
   const textColorClass = `text-[${MBTI_TEXT_COLOR[category]}]`;
   const shadowColorClass = `shadow-[${MBTI_BACKGROUND_COLOR[category]}]`;
   const selectedClass = selectMbtis.includes(id)
-    ? "border-4 border-color-red"
+    ? `border-4 border-[${MBTI_BACKGROUND_COLOR[category]}]`
     : "";
   return (
     <div

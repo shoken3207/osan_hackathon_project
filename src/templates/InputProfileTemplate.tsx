@@ -53,6 +53,7 @@ const InputProfileTemplate = () => {
           <div className="flex flex-wrap  justify-center gap-x-6 gap-y-6">
             {MBTI.map((mbti) => (
               <MbtiCard
+                key={mbti.id}
                 mbti={mbti}
                 selectMbtis={selectMbtis}
                 setSelectMbtis={setSelectMbtis}
