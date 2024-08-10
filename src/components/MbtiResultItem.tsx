@@ -1,4 +1,4 @@
-import { MBTI } from "@/const";
+import { MBTI, MBTI_BACKGROUND_COLOR } from "@/const";
 import {
   HoverCard,
   HoverCardContent,
@@ -14,23 +14,26 @@ const MbtiResultItem = ({
   value: number;
 }) => {
   const findMbti = MBTI.find(({ id }) => id === mbtiId);
-  const widthClass = `w-[41%]`;
+  const widthClass: string = `w-[40%]`;
+  const graphColorClass: string = findMbti
+    ? `bg-[${MBTI_BACKGROUND_COLOR[findMbti.category]}]`
+    : "";
   return (
     <li>
       {findMbti && (
         <div className=" flex items-center justify-between">
           <HoverCard>
             <HoverCardTrigger>
-              <p>{findMbti.name_en}</p>
+              <p className="hover:text-blue-400">{findMbti.name_en}</p>
             </HoverCardTrigger>
-            <HoverCardContent className="min-w-16  shadow-md bg-white p-4">
-              <p>{findMbti.name_jp}</p>
-              <p>{findMbti.name_en}</p>
+            <HoverCardContent className="min-w-16 max-w-60  shadow-md bg-white p-4">
+              <p className={` text-center `}>{findMbti.name_jp}</p>
+              <p className="text-center">{findMbti.name_en}</p>
               <p>{findMbti.desc}</p>
             </HoverCardContent>
           </HoverCard>
           <div className="w-8/12">
-            <div className={`w-[41%] h-4 bg-slate-500`}>{value}</div>
+            <div className={`${widthClass} h-4 bg-black`}>{value}</div>
           </div>
         </div>
       )}
