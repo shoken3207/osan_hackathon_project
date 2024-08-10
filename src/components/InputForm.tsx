@@ -1,6 +1,7 @@
 "use client";
 import { InputData } from "@/templates/HomeTemplate";
 import { Dispatch, SetStateAction, useState } from "react";
+import { Button } from "./ui/button";
 
 const InputForm = ({
   setInputData,
@@ -21,6 +22,7 @@ const InputForm = ({
           明るさ:
           <input
             type="number"
+            disabled
             value={inputData.brightness}
             onChange={(e) =>
               setInputData({ ...inputData, brightness: Number(e.target.value) })
@@ -40,7 +42,7 @@ const InputForm = ({
         </label>
         <br />
         <label>
-          インドア or アウトドア:
+          屋内写真と屋外写真のどちらですか？
           <select
             value={inputData.indoorOutdoor}
             onChange={(e) =>
@@ -54,7 +56,7 @@ const InputForm = ({
         </label>
         <br />
         <label>
-          自撮り or 他撮り:
+          自撮り写真と他撮り写真のどちらですか？:
           <select
             value={inputData.selfieOther}
             onChange={(e) =>
@@ -78,7 +80,7 @@ const InputForm = ({
           />
         </label>
         <br />
-        <button type="submit">Submit</button>
+        <Button type="submit">Submit</Button>
       </form>
     </div>
   );

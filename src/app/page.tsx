@@ -1,7 +1,3 @@
-import ImageUpload from "@/components/ImageUpload";
-import InputImage from "@/components/InputImage";
-import InputForm from "@/components/InputForm";
-import MbtiResultList from "@/components/MbtiResultList";
 import HomeTemplate from "@/templates/HomeTemplate";
 
 export default function Home() {
@@ -23,11 +19,5 @@ export default function Home() {
     { mbtiId: 12, value: 6 },
     { mbtiId: 13, value: 3 },
   ];
-  // const [result, setResult] = useState({});
-  // const [file, setFile] = useState(null);
-  // useEffect(() => {
-  //   if (!file) return;
-  //   console.log("called");
-  // }, [file]);
   return <HomeTemplate resultList={resultList} />;
 }

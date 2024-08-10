@@ -1,7 +1,6 @@
 "use client";
 import ImageUpload from "@/components/ImageUpload";
 import InputForm from "@/components/InputForm";
-import InputImage from "@/components/InputImage";
 import MbtiResultList from "@/components/MbtiResultList";
 import { useState } from "react";
 
@@ -26,13 +25,10 @@ const HomeTemplate = ({
     numberOfPeople: "",
   });
   return (
-    <div className="w-full min-h-screen bg-[#f5fbfd]">
-      <div className=" w-11/12 mx-auto max-w-xl bg-white">
-        <ImageUpload inputData={inputData} setInputData={setInputData} />
-        <InputImage />
-        <InputForm inputData={inputData} setInputData={setInputData} />
-        <MbtiResultList resultList={resultList} />
-      </div>
+    <div className=" w-11/12 mx-auto max-w-3xl p-4 rounded-lg bg-white">
+      <ImageUpload inputData={inputData} setInputData={setInputData} />
+      <InputForm inputData={inputData} setInputData={setInputData} />
+      <MbtiResultList resultList={resultList} />
     </div>
   );
 };

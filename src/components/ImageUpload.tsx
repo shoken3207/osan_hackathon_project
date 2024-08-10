@@ -1,4 +1,5 @@
 "use client";
+import { BASE_URL } from "@/const";
 import { InputData } from "@/templates/HomeTemplate";
 import React, { Dispatch, SetStateAction, useState } from "react";
 
@@ -26,7 +27,7 @@ const ImageUpload = ({
       formData.append("image", selectedFile);
 
       try {
-        const response = await fetch("/api/upload", {
+        const response = await fetch(`${BASE_URL}/api/upload`, {
           method: "POST",
           body: formData,
         });
