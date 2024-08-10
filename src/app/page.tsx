@@ -1,9 +1,24 @@
+// "use client";
+import ImageUpload from "@/components/ImageUpload";
 import MbtiResultList from "@/components/MbtiResultList";
+import { useEffect, useState } from "react";
 
 export default function Home() {
   const data = {
     desc: "",
     mbti: [
+      {
+        mbtiId: 1,
+        percentage: 83,
+      },
+      {
+        mbtiId: 1,
+        percentage: 83,
+      },
+      {
+        mbtiId: 1,
+        percentage: 83,
+      },
       {
         mbtiId: 1,
         percentage: 83,
@@ -28,10 +43,16 @@ export default function Home() {
     { mbtiId: 12, value: 6 },
     { mbtiId: 13, value: 3 },
   ];
+  // const [result, setResult] = useState({});
+  // const [file, setFile] = useState(null);
+  // useEffect(() => {
+  //   if (!file) return;
+  //   console.log("called");
+  // }, [file]);
   return (
-    <div className="w-full bg-[#f5fbfd]">
+    <div className="w-full min-h-screen bg-[#f5fbfd]">
       <div className=" w-11/12 mx-auto max-w-xl bg-white">
-        <div className="w-5 h-5 bg-gray-200"></div>
+        <ImageUpload />
         <MbtiResultList resultList={resultList} />
       </div>
     </div>
