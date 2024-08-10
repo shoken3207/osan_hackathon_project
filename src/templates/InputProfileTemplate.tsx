@@ -1,9 +1,11 @@
 "use client";
 import MbtiCard from "@/components/MbtiCard";
-import { MBTI } from "@/const";
+import { Button } from "@/components/ui/button";
+import { GENDER, GENDER_ARRAY, MBTI } from "@/const";
 import React, { useState } from "react";
 
 const InputProfileTemplate = () => {
+  const [gender, setGender] = useState<number>(GENDER.MALE);
   const [selectMbtis, setSelectMbtis] = useState<number[]>([]);
   const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
     console.log(e.target.value);
@@ -17,20 +19,19 @@ const InputProfileTemplate = () => {
       <div className="flex flex-col gap-y-6">
         <div className="flex flex-col gap-y-1">
           <label>あなたの性別を選択してください</label>
-          <div className="flex items-center justify-start gap-x-1">
-            <input
-              type="radio"
-              value={1}
-              name="gender"
-              id="male"
-              defaultChecked
-            />
-            <label htmlFor="male">男性</label>
-          </div>
-          <div className="flex items-center justify-start gap-x-1">
-            <input type="radio" value={2} name="gender" id="female" />
-            <label htmlFor="female">女性</label>
-          </div>
+          {GENDER_ARRAY.map(({ text, value }) => (
+            <div className="flex items-center justify-start gap-x-1">
+              <input
+                type="radio"
+                value={value}
+                name="gender"
+                id={String(value)}
+                defaultChecked={gender === value}
+                onChange={() => setGender(value)}
+              />
+              <label htmlFor={String(value)}>{text}</label>
+            </div>
+          ))}
         </div>
         <div className="flex flex-col gap-y-1">
           <label>
@@ -50,16 +51,20 @@ const InputProfileTemplate = () => {
           <label htmlFor="">
             あなたと相性が良いまたは、好みのMBTIを選択してください
           </label>
-          <div className="flex flex-wrap  justify-center gap-x-6 gap-y-6">
+          <div className="flex flex-wrap  justify-start gap-x-6 gap-y-6">
             {MBTI.map((mbti) => (
               <MbtiCard
                 key={mbti.id}
+                gender={gender}
                 mbti={mbti}
                 selectMbtis={selectMbtis}
                 setSelectMbtis={setSelectMbtis}
               />
             ))}
           </div>
+        </div>
+        <div className="flex justify-end">
+          <Button size="lg">登録</Button>
         </div>
       </div>
     </div>

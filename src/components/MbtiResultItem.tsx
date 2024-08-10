@@ -33,7 +33,9 @@ const MbtiResultItem = ({
             </HoverCardContent>
           </HoverCard>
           <div className="w-8/12">
-            <div className={`${widthClass} h-4 bg-black`}>{value}</div>
+            <div style={{ width: `${value}%` }} className={`h-4 bg-black`}>
+              {value}
+            </div>
           </div>
         </div>
       )}

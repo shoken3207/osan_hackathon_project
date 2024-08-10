@@ -1,11 +1,13 @@
-import { MBTI_BACKGROUND_COLOR, MBTI_TEXT_COLOR } from "@/const";
+import { GENDER, MBTI_BACKGROUND_COLOR, MBTI_TEXT_COLOR } from "@/const";
 import React, { SetStateAction, Dispatch } from "react";
 
 const MbtiCard = ({
+  gender,
   mbti,
   setSelectMbtis,
   selectMbtis,
 }: {
+  gender: number;
   mbti: {
     id: number;
     name_jp: string;
@@ -18,19 +20,43 @@ const MbtiCard = ({
   selectMbtis: number[];
 }) => {
   const { name_jp, id, category, name_en, desc } = mbti;
-  const textColorClass = `text-[${MBTI_TEXT_COLOR[category]}]`;
-  const shadowColorClass = `shadow-[${MBTI_BACKGROUND_COLOR[category]}]`;
-  const selectedClass = selectMbtis.includes(id)
-    ? `border-4 border-[${MBTI_BACKGROUND_COLOR[category]}]`
-    : "";
+  const imageSrc =
+    gender === GENDER.MALE
+      ? `/images/mbti/female/${name_en.substring(0, 4)}.jpg`
+      : `/images/mbti/male/${name_en.substring(0, 4)}.jpg`;
+  const selectedClass = selectMbtis.includes(id) ? `border-2 rounded-md` : "";
+  const handleClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    e.preventDefault();
+    if (selectMbtis.includes(id)) {
+      const index = selectMbtis.findIndex((x) => x === id);
+      console.log(selectMbtis, index);
+      const copySelectMbtis = [...selectMbtis];
+      copySelectMbtis.splice(index, 1);
+      setSelectMbtis(copySelectMbtis);
+    } else {
+      setSelectMbtis([...selectMbtis, id]);
+    }
+  };
   return (
     <div
-      className={`${selectedClass} cursor-pointer flex flex-col w-full max-w-64 shadow-md p-4 gap-y-4 ${shadowColorClass}`}
+      style={{
+        boxShadow: `8px 8px 16px -3px  ${MBTI_BACKGROUND_COLOR[category]};`,
+        borderColor: MBTI_TEXT_COLOR[category],
+      }}
+      onClick={(e) => handleClick(e)}
+      className={`${selectedClass} cursor-pointer flex flex-col w-full max-w-60 p-3 gap-y-3`}
     >
-      <div className="w-[60%] mx-auto max-w-20 aspect-square rounded-[50%] bg-slate-400"></div>
-      <p className={`${textColorClass} text-2xl text-center`}>{name_jp}</p>
-      <p className="text-center -mt-4">{name_en}</p>
-      <p className="">{desc}</p>
+      <div className="w-[50%] mx-auto max-w-20 aspect-square bg-slate-400 rounded-[50%]">
+        <img className="w-full h-full  rounded-[50%]" src={imageSrc} alt="" />
+      </div>
+      <p
+        style={{ color: `${MBTI_TEXT_COLOR[category]}` }}
+        className={` text-xl text-center font-bold`}
+      >
+        {name_jp}
+      </p>
+      <p className="text-center -mt-4 text-sm">{name_en}</p>
+      <p className="text-sm">{desc}</p>
     </div>
   );
 };

@@ -6,6 +6,22 @@ export const MBTI_CATEGORY = {
   EXPLORER: 4,
 };
 
+export const GENDER = {
+  MALE: 1,
+  FEMALE: 2,
+};
+
+export const GENDER_ARRAY = [
+  {
+    text: "男性",
+    value: GENDER.MALE,
+  },
+  {
+    text: "女性",
+    value: GENDER.FEMALE,
+  },
+];
+
 export const MBTI: {
   id: number;
   name_jp: string;
