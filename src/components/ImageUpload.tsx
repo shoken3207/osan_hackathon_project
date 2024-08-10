@@ -1,14 +1,24 @@
 "use client";
-import React, { useState } from "react";
+import { InputData } from "@/templates/HomeTemplate";
+import React, { Dispatch, SetStateAction, useState } from "react";
 
-const ImageUpload: React.FC = () => {
+const ImageUpload = ({
+  setInputData,
+  inputData,
+}: {
+  setInputData: Dispatch<SetStateAction<InputData>>;
+  inputData: InputData;
+}) => {
   const [isLoading, setIsLoading] = useState(false);
+  const [previewUrl, setPreviewUrl] = useState("");
 
   const handleFileChange = async (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     if (event.target.files && event.target.files.length > 0) {
       const selectedFile = event.target.files[0];
+      const url = URL.createObjectURL(selectedFile);
+      setPreviewUrl(url);
 
       setIsLoading(true);
 
@@ -26,6 +36,7 @@ const ImageUpload: React.FC = () => {
         } else {
           console.error("Error uploading image:", response.statusText);
         }
+        setInputData({ ...inputData, brightness: 0, saturation: 0 });
       } catch (error) {
         console.error("Error uploading image:", error);
       } finally {
@@ -35,12 +46,15 @@ const ImageUpload: React.FC = () => {
   };
 
   return (
-    <input
-      type="file"
-      accept="image/*"
-      onChange={handleFileChange}
-      className="mb-4"
-    />
+    <div>
+      <input
+        type="file"
+        accept="image/*"
+        onChange={handleFileChange}
+        className="mb-4"
+      />
+      <img src={previewUrl} alt="" />
+    </div>
   );
 };
 

@@ -1,18 +1,16 @@
-"use client"
-import { useState } from "react";
+"use client";
+import { InputData } from "@/templates/HomeTemplate";
+import { Dispatch, SetStateAction, useState } from "react";
 
-const InputForm = () => {
-  const [inputData, setInputData] = useState({
-    brightness: "",
-    saturation: "",
-    indoorOutdoor: "", // "indoor" or "outdoor"
-    selfieOther: "", // "selfie" or "other"
-    numberOfPeople: "",
-  });
-
+const InputForm = ({
+  setInputData,
+  inputData,
+}: {
+  setInputData: Dispatch<SetStateAction<InputData>>;
+  inputData: InputData;
+}) => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    // Here you can handle form submission, e.g., call ChatGPT API with these values
     console.log("Form submitted with values:", inputData);
   };
 
@@ -20,28 +18,34 @@ const InputForm = () => {
     <div>
       <form onSubmit={handleSubmit}>
         <label>
-          Brightness:
+          明るさ:
           <input
             type="number"
             value={inputData.brightness}
-            onChange={(e) => setInputData({ ...inputData, brightness: e.target.value })}
+            onChange={(e) =>
+              setInputData({ ...inputData, brightness: Number(e.target.value) })
+            }
           />
         </label>
         <br />
         <label>
-          Saturation:
+          彩度:
           <input
             type="number"
             value={inputData.saturation}
-            onChange={(e) => setInputData({ ...inputData, saturation: e.target.value })}
+            onChange={(e) =>
+              setInputData({ ...inputData, saturation: Number(e.target.value) })
+            }
           />
         </label>
         <br />
         <label>
-          Indoor or Outdoor:
+          インドア or アウトドア:
           <select
             value={inputData.indoorOutdoor}
-            onChange={(e) => setInputData({ ...inputData, indoorOutdoor: e.target.value })}
+            onChange={(e) =>
+              setInputData({ ...inputData, indoorOutdoor: e.target.value })
+            }
           >
             <option value="">Select one</option>
             <option value="indoor">Indoor</option>
@@ -50,23 +54,27 @@ const InputForm = () => {
         </label>
         <br />
         <label>
-          Selfie or Other-taken:
+          自撮り or 他撮り:
           <select
             value={inputData.selfieOther}
-            onChange={(e) => setInputData({ ...inputData, selfieOther: e.target.value })}
+            onChange={(e) =>
+              setInputData({ ...inputData, selfieOther: e.target.value })
+            }
           >
             <option value="">Select one</option>
-            <option value="selfie">Selfie</option>
-            <option value="other">Other</option>
+            <option value="selfie">自撮り</option>
+            <option value="other">他撮り</option>
           </select>
         </label>
         <br />
         <label>
-          Number of People:
+          人数:
           <input
             type="number"
             value={inputData.numberOfPeople}
-            onChange={(e) => setInputData({ ...inputData, numberOfPeople: e.target.value })}
+            onChange={(e) =>
+              setInputData({ ...inputData, numberOfPeople: e.target.value })
+            }
           />
         </label>
         <br />
