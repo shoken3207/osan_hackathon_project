@@ -1,30 +1,9 @@
 // "use client";
 import ImageUpload from "@/components/ImageUpload";
+import InputImage from "@/components/InputImage";
 import MbtiResultList from "@/components/MbtiResultList";
-import { useEffect, useState } from "react";
 
 export default function Home() {
-  const data = {
-    desc: "",
-    mbti: [
-      {
-        mbtiId: 1,
-        percentage: 83,
-      },
-      {
-        mbtiId: 1,
-        percentage: 83,
-      },
-      {
-        mbtiId: 1,
-        percentage: 83,
-      },
-      {
-        mbtiId: 1,
-        percentage: 83,
-      },
-    ],
-  };
   const resultList = [
     { mbtiId: 8, value: 93 },
     { mbtiId: 10, value: 68 },
@@ -53,6 +32,7 @@ export default function Home() {
     <div className="w-full min-h-screen bg-[#f5fbfd]">
       <div className=" w-11/12 mx-auto max-w-xl bg-white">
         <ImageUpload />
+        {/* <InputImage /> */}
         <MbtiResultList resultList={resultList} />
       </div>
     </div>
