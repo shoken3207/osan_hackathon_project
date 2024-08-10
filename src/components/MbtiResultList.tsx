@@ -9,7 +9,7 @@ const MbtiResultList = ({
   return (
     <ul className="w-full">
       {resultList.map(({ mbtiId, value }) => (
-        <MbtiResultItem mbtiId={mbtiId} value={value} />
+        <MbtiResultItem key={mbtiId} mbtiId={mbtiId} value={value} />
       ))}
     </ul>
   );
