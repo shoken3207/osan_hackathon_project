@@ -20,7 +20,7 @@ const InputProfileTemplate = () => {
         <div className="flex flex-col gap-y-1">
           <label>あなたの性別を選択してください</label>
           {GENDER_ARRAY.map(({ text, value }) => (
-            <div className="flex items-center justify-start gap-x-1">
+            <div key={text} className="flex items-center justify-start gap-x-1">
               <input
                 type="radio"
                 value={value}
