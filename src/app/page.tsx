@@ -1,7 +1,8 @@
-// "use client";
 import ImageUpload from "@/components/ImageUpload";
 import InputImage from "@/components/InputImage";
+import InputForm from "@/components/InputForm";
 import MbtiResultList from "@/components/MbtiResultList";
+import HomeTemplate from "@/templates/HomeTemplate";
 
 export default function Home() {
   const resultList = [
@@ -28,13 +29,5 @@ export default function Home() {
   //   if (!file) return;
   //   console.log("called");
   // }, [file]);
-  return (
-    <div className="w-full min-h-screen bg-[#f5fbfd]">
-      <div className=" w-11/12 mx-auto max-w-xl bg-white">
-        <ImageUpload />
-        {/* <InputImage /> */}
-        <MbtiResultList resultList={resultList} />
-      </div>
-    </div>
-  );
+  return <HomeTemplate resultList={resultList} />;
 }
