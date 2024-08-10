@@ -1,5 +1,6 @@
 // "use client";
 import ImageUpload from "@/components/ImageUpload";
+import InputForm from "@/components/InputForm";
 import MbtiResultList from "@/components/MbtiResultList";
 import { useEffect, useState } from "react";
 
@@ -53,6 +54,7 @@ export default function Home() {
     <div className="w-full min-h-screen bg-[#f5fbfd]">
       <div className=" w-11/12 mx-auto max-w-xl bg-white">
         <ImageUpload />
+        <InputForm />
         <MbtiResultList resultList={resultList} />
       </div>
     </div>
