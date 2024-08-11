@@ -8,8 +8,6 @@ import { RootState } from "@/store";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-// import { RootState } from "@/store";
-// import { useSelector } from "react-redux";
 
 const InputProfileTemplate = () => {
   const user = useSelector((state: RootState) => state.userData);

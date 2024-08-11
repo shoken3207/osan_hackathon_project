@@ -1,8 +1,11 @@
 "use client";
 import ImageUpload from "@/components/ImageUpload";
 import InputForm from "@/components/InputForm";
-import MbtiResultList from "@/components/MbtiResultList";
-import { useState } from "react";
+import Result from "@/components/Result";
+import { RootState } from "@/store";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
 export type InputData = {
   brightness: number;
@@ -12,11 +15,9 @@ export type InputData = {
   numberOfPeople: string;
 };
 
-const HomeTemplate = ({
-  resultList,
-}: {
-  resultList: { mbtiId: number; value: number }[];
-}) => {
+const HomeTemplate = ({}) => {
+  const router = useRouter();
+  const user = useSelector((state: RootState) => state.userData);
   const [inputData, setInputData] = useState({
     brightness: 0,
     saturation: 0,
@@ -24,11 +25,24 @@ const HomeTemplate = ({
     selfieOther: "",
     numberOfPeople: "",
   });
+  const [result, setResult] = useState<{
+    desc: string;
+    mbtiList: { mbtiId: number; value: number }[];
+  } | null>(null);
+  useEffect(() => {
+    if (user.goodCompatibilityMbtis.length === 0) {
+      router.push("/inputProfile");
+    }
+  }, []);
   return (
     <div className=" w-11/12 mx-auto max-w-3xl p-4 rounded-lg bg-white">
       <ImageUpload inputData={inputData} setInputData={setInputData} />
-      <InputForm inputData={inputData} setInputData={setInputData} />
-      <MbtiResultList resultList={resultList} />
+      <InputForm
+        inputData={inputData}
+        setInputData={setInputData}
+        setResult={setResult}
+      />
+      <Result result={result} />
     </div>
   );
 };

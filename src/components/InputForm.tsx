@@ -2,25 +2,49 @@
 import { InputData } from "@/templates/HomeTemplate";
 import { Dispatch, SetStateAction, useState } from "react";
 import { Button } from "./ui/button";
-import axios from 'axios'; 
+import axios from "axios";
 import { BASE_URL } from "@/const";
+import { Result } from "./Result";
+import { LoaderCircle } from "lucide-react";
 
 const InputForm = ({
   setInputData,
+  setResult,
   inputData,
 }: {
+  setResult: Dispatch<SetStateAction<Result>>;
   setInputData: Dispatch<SetStateAction<InputData>>;
   inputData: InputData;
 }) => {
-  const handleSubmit = async(event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
       // APIへのリクエストを送信
       const response = await axios.post(`${BASE_URL}/api/test`, inputData);
-      console.log('Response:', response.data);
-
+      console.log("Response:", response.data);
+      setResult({
+        desc: "aaaaaaaaaaaaaaa",
+        mbtiList: [
+          { mbtiId: 8, value: 93 },
+          { mbtiId: 10, value: 68 },
+          { mbtiId: 2, value: 66 },
+          { mbtiId: 6, value: 49 },
+          { mbtiId: 16, value: 44 },
+          { mbtiId: 5, value: 42 },
+          { mbtiId: 3, value: 40 },
+          { mbtiId: 9, value: 40 },
+          { mbtiId: 11, value: 38 },
+          { mbtiId: 1, value: 34 },
+          { mbtiId: 4, value: 33 },
+          { mbtiId: 14, value: 33 },
+          { mbtiId: 7, value: 23 },
+          { mbtiId: 15, value: 20 },
+          { mbtiId: 12, value: 6 },
+          { mbtiId: 13, value: 3 },
+        ],
+      });
     } catch (error) {
-      console.error('Error submitting form:', error);
+      console.error("Error submitting form:", error);
     }
     console.log("Form submitted with values:", inputData);
   };
@@ -32,7 +56,6 @@ const InputForm = ({
           明るさ:
           <input
             type="number"
-            disabled
             value={inputData.brightness}
             onChange={(e) =>
               setInputData({ ...inputData, brightness: Number(e.target.value) })
