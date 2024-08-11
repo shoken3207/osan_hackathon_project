@@ -140,7 +140,7 @@ const InputForm = ({
             className="input"
           />
         </div>
-        <Button type="submit" className="submit-button">Submit</Button>
+        <Button type="submit" className="submit-button">アドバイスをもらう</Button>
       </form>
     </div>
   );

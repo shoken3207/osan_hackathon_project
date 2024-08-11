@@ -14,6 +14,7 @@ const MbtiResultItem = ({
   value: number;
 }) => {
   const findMbti = MBTI.find(({ id }) => id === mbtiId);
+  const graphColor = findMbti ? MBTI_BACKGROUND_COLOR[findMbti.category] : "#ccc";
   const widthClass: string = `w-[40%]`;
   const graphColorClass: string = findMbti
     ? `bg-[${MBTI_BACKGROUND_COLOR[findMbti.category]}]`
@@ -33,7 +34,7 @@ const MbtiResultItem = ({
             </HoverCardContent>
           </HoverCard>
           <div className="w-8/12">
-            <div style={{ width: `${value}%` }} className={`h-4 bg-black`}>
+            <div style={{ width: `${value}%` ,background: `${MBTI_BACKGROUND_COLOR[findMbti.category]}` }} className={`h-4`}>
               {value}
             </div>
           </div>
