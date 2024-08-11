@@ -1,18 +1,34 @@
-import OpenAI from 'openai';
+import OpenAI from "openai";
 import { NextResponse } from "next/server";
-import { NextApiRequest, NextApiResponse } from 'next';
+import { NextApiRequest, NextApiResponse } from "next";
 
-export async function POST(req: NextApiRequest,res:NextApiResponse) {
-    const {bright,vivit,indoor,selfy,count}: {bright: number, vivit: number, indoor: string, selfy: string, count: number} = req.body;
-    try {
-        const text = `${bright},${vivit},${indoor},${selfy},${count}`
-        console.log(process.env.API_KEY)
-        const client = new OpenAI({
-            apiKey:process.env.API_KEY, 
-        });
-        const chatCompletion = await client.chat.completions.create({
-            messages: [
-                { role: 'system', content: `
+export async function POST(req: NextApiRequest, res: NextApiResponse) {
+  const {
+    brightness,
+    saturation,
+    indoorOutdoor,
+    selfieOther,
+    numberOfPeople,
+  }: {
+    brightness: number;
+    saturation: number;
+    indoorOutdoor: string;
+    selfieOther: string;
+    numberOfPeople: number;
+  } = req.body;
+  try {
+    const text = `${brightness},${saturation},${indoorOutdoor},${selfieOther},${numberOfPeople}`;
+    console.log("req: ", req.body);
+    console.log("env: ", process.env.API_KEY);
+    const client = new OpenAI({
+      apiKey: process.env.API_KEY,
+    });
+    const chatCompletion = await client.chat.completions
+      .create({
+        messages: [
+          {
+            role: "system",
+            content: `
                     1. ENFJ好む傾向: ENFJは外向的で他者とのつながりを重視するため、明るく、他撮りで、複数人が写っている画像を好む傾向が強いです。彩度も高い方が好まれます。
                     2. ENFP好む傾向: ENFPは冒険心が強く、屋外で撮られたカラフルな画像を好む傾向があります。自撮りでも他撮りでも、楽しさや自由さが感じられる写真が好まれるでしょう。
                     3. ENTJ好む傾向: ENTJは構造や秩序を重んじるため、シンプルで明確な構図の画像を好みます。明度が高いことも好まれ、他撮りで少人数が写っている写真に好感を持つ可能性が高いです。
@@ -31,20 +47,22 @@ export async function POST(req: NextApiRequest,res:NextApiResponse) {
                     16. ISTP好む傾向: ISTPは冷静で観察力が高いため、中立的な彩度と明度の画像を好みます。シンプルで構造的な画像が好まれ、特に屋内で少人数が写っている写真に好感を持つことが多いです。
                     このあとユーザーから下記のデータ形式で画像の明度、彩度、屋内か屋外か、自撮りか他撮りか、人数が送られてくるので、好まれたいmbtiをもとにアドバイスをしてください。
                     好まれたいmbtiはISTJとします。
-                    ${bright},${vivit},${indoor},${selfy},${count}
-                    `},
-                { role: 'user', content: text}
-            ],
-            model: 'gpt-4o-mini',
-        }).catch(err => console.log("err: ", err));
-        console.log("chatCompletion: ",chatCompletion )
-        // const responseMessage = chatCompletion.choices[0]?.message?.content;
-        // console.log("Response message: ", responseMessage);
-        
-      return NextResponse.json({  
-        name: chatCompletion,  // GETリクエストに対するレスポンス
-      }); 
-    } catch (error) {
-      return NextResponse.error();
-    }
+                    ${brightness},${saturation},${indoorOutdoor},${selfieOther},${numberOfPeople}
+                    `,
+          },
+          { role: "user", content: text },
+        ],
+        model: "gpt-4o-mini",
+      })
+      .catch((err) => console.log("err: ", err));
+    console.log("chatCompletion: ", chatCompletion);
+    // const responseMessage = chatCompletion.choices[0]?.message?.content;
+    // console.log("Response message: ", responseMessage);
+
+    return NextResponse.json({
+      name: chatCompletion, // GETリクエストに対するレスポンス
+    });
+  } catch (error) {
+    return NextResponse.error();
   }
+}

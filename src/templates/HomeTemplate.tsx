@@ -1,4 +1,5 @@
 "use client";
+import ImageAnalyzer from "@/components/ImageAnalyzer";
 import ImageUpload from "@/components/ImageUpload";
 import InputForm from "@/components/InputForm";
 import Result from "@/components/Result";
@@ -8,8 +9,8 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
 export type InputData = {
-  brightness: number;
-  saturation: number;
+  brightness: string;
+  saturation: string;
   indoorOutdoor: string;
   selfieOther: string;
   numberOfPeople: string;
@@ -19,8 +20,8 @@ const HomeTemplate = ({}) => {
   const router = useRouter();
   const user = useSelector((state: RootState) => state.userData);
   const [inputData, setInputData] = useState({
-    brightness: 0,
-    saturation: 0,
+    brightness: "",
+    saturation: "",
     indoorOutdoor: "",
     selfieOther: "",
     numberOfPeople: "",
@@ -36,7 +37,8 @@ const HomeTemplate = ({}) => {
   }, []);
   return (
     <div className=" w-11/12 mx-auto max-w-3xl p-4 rounded-lg bg-white">
-      <ImageUpload inputData={inputData} setInputData={setInputData} />
+      {/* <ImageUpload inputData={inputData} setInputData={setInputData} /> */}
+      <ImageAnalyzer inputData={inputData} setInputData={setInputData} />
       <InputForm
         inputData={inputData}
         setInputData={setInputData}

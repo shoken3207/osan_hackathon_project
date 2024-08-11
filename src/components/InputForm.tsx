@@ -1,11 +1,11 @@
 "use client";
 import { InputData } from "@/templates/HomeTemplate";
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction } from "react";
 import { Button } from "./ui/button";
 import axios from "axios";
 import { BASE_URL } from "@/const";
 import { Result } from "./Result";
-import { LoaderCircle } from "lucide-react";
+import { useToast } from "./ui/use-toast";
 
 const InputForm = ({
   setInputData,
@@ -16,10 +16,32 @@ const InputForm = ({
   setInputData: Dispatch<SetStateAction<InputData>>;
   inputData: InputData;
 }) => {
+  const { toast } = useToast();
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    const {
+      brightness,
+      saturation,
+      indoorOutdoor,
+      selfieOther,
+      numberOfPeople,
+    } = inputData;
+    if (
+      !brightness ||
+      !saturation ||
+      !indoorOutdoor ||
+      !selfieOther ||
+      !numberOfPeople
+    ) {
+      toast({
+        variant: "destructive",
+        description: "未入力の項目があります。",
+      });
+      return;
+    }
     try {
       // APIへのリクエストを送信
+      console.log("inputData: ", inputData);
       const response = await axios.post(`${BASE_URL}/api/test`, inputData);
       console.log("Response:", response.data);
       setResult({
@@ -55,10 +77,9 @@ const InputForm = ({
         <label>
           明るさ:
           <input
-            type="number"
             value={inputData.brightness}
             onChange={(e) =>
-              setInputData({ ...inputData, brightness: Number(e.target.value) })
+              setInputData({ ...inputData, brightness: e.target.value })
             }
           />
         </label>
@@ -66,10 +87,9 @@ const InputForm = ({
         <label>
           彩度:
           <input
-            type="number"
             value={inputData.saturation}
             onChange={(e) =>
-              setInputData({ ...inputData, saturation: Number(e.target.value) })
+              setInputData({ ...inputData, saturation: e.target.value })
             }
           />
         </label>
