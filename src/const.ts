@@ -1,4 +1,4 @@
-export const BASE_URL = "http://localhost:3000";
+export const BASE_URL = "https://osan-hackathon-project.vercel.app";
 export const MBTI_CATEGORY = {
   ANALYST: 1,
   DIPLOMAT: 2,
