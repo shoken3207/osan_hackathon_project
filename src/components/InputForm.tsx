@@ -2,6 +2,8 @@
 import { InputData } from "@/templates/HomeTemplate";
 import { Dispatch, SetStateAction, useState } from "react";
 import { Button } from "./ui/button";
+import axios from 'axios'; 
+import { BASE_URL } from "@/const";
 
 const InputForm = ({
   setInputData,
@@ -10,8 +12,16 @@ const InputForm = ({
   setInputData: Dispatch<SetStateAction<InputData>>;
   inputData: InputData;
 }) => {
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async(event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    try {
+      // APIへのリクエストを送信
+      const response = await axios.post(`${BASE_URL}/api/test`, inputData);
+      console.log('Response:', response.data);
+
+    } catch (error) {
+      console.error('Error submitting form:', error);
+    }
     console.log("Form submitted with values:", inputData);
   };
 
