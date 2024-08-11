@@ -5,7 +5,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { GENDER, GENDER_ARRAY, MBTI } from "@/const";
 import { set } from "@/features/userData/userDataSlice";
 import { RootState } from "@/store";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 // import { RootState } from "@/store";
@@ -13,7 +13,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 const InputProfileTemplate = () => {
   const user = useSelector((state: RootState) => state.userData);
-  //   const router = useRouter();
+  const router = useRouter();
   const [gender, setGender] = useState<number>(GENDER.MALE);
   const [selectMbtis, setSelectMbtis] = useState<number[]>([]);
   const dispatch = useDispatch();
@@ -38,7 +38,7 @@ const InputProfileTemplate = () => {
       return;
     }
     dispatch(set({ gender, goodCompatibilityMbtis: selectMbtis }));
-    // router.push("/");
+    router.push("/");
   };
   return (
     <div className=" w-11/12 mx-auto max-w-4xl p-4 rounded-lg bg-white">
@@ -68,6 +68,7 @@ const InputProfileTemplate = () => {
             onChange={(e) => handleSelect(e)}
             name="mbti"
           >
+            <option value="">選択してください</option>
             {MBTI.map(({ id, name_en, name_jp }) => (
               <option key={id} value={id}>{`${name_jp}（${name_en}）`}</option>
             ))}
