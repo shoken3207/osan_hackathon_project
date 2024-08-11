@@ -1,6 +1,6 @@
 import OpenAI from "openai";
 import { NextResponse } from "next/server";
-import { NextApiRequest, NextApiResponse } from "next";
+import { NextApiResponse } from "next";
 
 export async function POST(req: any, res: NextApiResponse) {
   const {
@@ -16,17 +16,19 @@ export async function POST(req: any, res: NextApiResponse) {
     indoorOutdoor: string;
     selfieOther: string;
     numberOfPeople: number;
-    goodMbti:string[];
+    goodMbti: string[];
   } = await req.json();
-  console.log(brightness,
+  console.log(
+    brightness,
     saturation,
     indoorOutdoor,
     selfieOther,
     numberOfPeople,
-    goodMbti)
+    goodMbti
+  );
   try {
-const text = `brightness:${brightness},saturation:${saturation},indoorOutdoor:${indoorOutdoor},selfieOther:${selfieOther},numberOfPeople:${numberOfPeople},goodMbti:${goodMbti}`;
-    console.log(text)
+    const text = `brightness:${brightness},saturation:${saturation},indoorOutdoor:${indoorOutdoor},selfieOther:${selfieOther},numberOfPeople:${numberOfPeople},goodMbti:${goodMbti}`;
+    console.log(text);
     console.log("env: ", process.env.API_KEY);
     const client = new OpenAI({
       apiKey: process.env.API_KEY,
@@ -63,7 +65,7 @@ const text = `brightness:${brightness},saturation:${saturation},indoorOutdoor:${
                     14. ISFP好む傾向: ISFPは感受性が高く、温かさや個性が感じられる画像を好みます。自然な明度と彩度、少人数または一人が写っているシンプルな写真が特に好まれます。
                     15. ISTJ好む傾向: ISTJは実用的で、シンプルで明確な画像を好みます。明るい明度で、他撮りの少人数が写っている写真が特に好まれます。
                     16. ISTP好む傾向: ISTPは冷静で観察力が高いため、中立的な彩度と明度の画像を好みます。シンプルで構造的な画像が好まれ、特に屋内で少人数が写っている写真に好感を持つことが多いです。`,
-          }
+          },
         ],
         model: "gpt-4o-mini",
       })
