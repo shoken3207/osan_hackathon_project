@@ -14,11 +14,7 @@ const MbtiResultItem = ({
   value: number;
 }) => {
   const findMbti = MBTI.find(({ id }) => id === mbtiId);
-  const graphColor = findMbti ? MBTI_BACKGROUND_COLOR[findMbti.category] : "#ccc";
-  const widthClass: string = `w-[40%]`;
-  const graphColorClass: string = findMbti
-    ? `bg-[${MBTI_BACKGROUND_COLOR[findMbti.category]}]`
-    : "";
+ 
   return (
     <li>
       {findMbti && (
