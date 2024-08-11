@@ -21,11 +21,11 @@ const InputForm = ({
   const { toast } = useToast();
   const user = useSelector((state: RootState) => state.userData);
   console.log(user.goodCompatibilityMbtis);
-  const mbtiNames = user.goodCompatibilityMbtis.map(x => {
-    const mbti = MBTI.find(({id}) => id === x);
-    return mbti?.name_en
-  })
-  console.log(mbtiNames)
+  const mbtiNames = user.goodCompatibilityMbtis.map((x) => {
+    const mbti = MBTI.find(({ id }) => id === x);
+    return mbti?.name_en;
+  });
+  console.log(mbtiNames);
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const {
@@ -51,9 +51,12 @@ const InputForm = ({
     try {
       // APIへのリクエストを送信
       console.log("inputData: ", inputData);
-      const response = await axios.post(`${BASE_URL}/api/test`, {...inputData, goodMbti: mbtiNames});
+      const response = await axios.post(`${BASE_URL}/api/test`, {
+        ...inputData,
+        goodMbti: mbtiNames,
+      });
       console.log("Response:", response.data.name.choices[0].message.content);
-      const text = response.data.name.choices[0].message.content
+      const text = response.data.name.choices[0].message.content;
       setResult({
         desc: text,
         mbtiList: [
@@ -88,9 +91,12 @@ const InputForm = ({
           <label htmlFor="brightness">明るさ:</label>
           <input
             id="brightness"
+            disabled
             type="number"
             value={inputData.brightness}
-            onChange={(e) => setInputData({ ...inputData, brightness: e.target.value })}
+            onChange={(e) =>
+              setInputData({ ...inputData, brightness: e.target.value })
+            }
             className="input"
           />
         </div>
@@ -99,33 +105,42 @@ const InputForm = ({
           <input
             id="saturation"
             type="number"
+            disabled
             value={inputData.saturation}
-            onChange={(e) => setInputData({ ...inputData, saturation: e.target.value })}
+            onChange={(e) =>
+              setInputData({ ...inputData, saturation: e.target.value })
+            }
             className="input"
           />
         </div>
         <div className="form-group">
-          <label htmlFor="indoorOutdoor">屋内写真と屋外写真のどちらですか？</label>
+          <label htmlFor="indoorOutdoor">
+            屋内写真と屋外写真のどちらですか？
+          </label>
           <select
             id="indoorOutdoor"
             value={inputData.indoorOutdoor}
-            onChange={(e) => setInputData({ ...inputData, indoorOutdoor: e.target.value })}
+            onChange={(e) =>
+              setInputData({ ...inputData, indoorOutdoor: e.target.value })
+            }
             className="select"
           >
-            <option value="">Select one</option>
             <option value="indoor">屋内写真</option>
             <option value="outdoor">屋外写真</option>
           </select>
         </div>
         <div className="form-group">
-          <label htmlFor="selfieOther">自撮り写真と他撮り写真のどちらですか？</label>
+          <label htmlFor="selfieOther">
+            自撮り写真と他撮り写真のどちらですか？
+          </label>
           <select
             id="selfieOther"
             value={inputData.selfieOther}
-            onChange={(e) => setInputData({ ...inputData, selfieOther: e.target.value })}
+            onChange={(e) =>
+              setInputData({ ...inputData, selfieOther: e.target.value })
+            }
             className="select"
           >
-            <option value="">Select one</option>
             <option value="selfie">自撮り</option>
             <option value="other">他撮り</option>
           </select>
@@ -136,15 +151,18 @@ const InputForm = ({
             id="numberOfPeople"
             type="number"
             value={inputData.numberOfPeople}
-            onChange={(e) => setInputData({ ...inputData, numberOfPeople: e.target.value })}
+            onChange={(e) =>
+              setInputData({ ...inputData, numberOfPeople: e.target.value })
+            }
             className="input"
           />
         </div>
-        <Button type="submit" className="submit-button">Submit</Button>
+        <Button type="submit" className="submit-button">
+          Submit
+        </Button>
       </form>
     </div>
   );
 };
 
 export default InputForm;
-

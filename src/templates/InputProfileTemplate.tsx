@@ -6,7 +6,7 @@ import { GENDER, GENDER_ARRAY, MBTI } from "@/const";
 import { set } from "@/features/userData/userDataSlice";
 import { RootState } from "@/store";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 const InputProfileTemplate = () => {
@@ -38,6 +38,11 @@ const InputProfileTemplate = () => {
     dispatch(set({ gender, goodCompatibilityMbtis: selectMbtis }));
     router.push("/");
   };
+  useEffect(() => {
+    if (user.goodCompatibilityMbtis.length > 0) {
+      setSelectMbtis(user.goodCompatibilityMbtis);
+    }
+  }, []);
   return (
     <div className=" w-11/12 mx-auto max-w-4xl p-4 rounded-lg bg-white">
       <div className="flex flex-col gap-y-6">

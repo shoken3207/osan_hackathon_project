@@ -1,6 +1,5 @@
 "use client";
 import ImageAnalyzer from "@/components/ImageAnalyzer";
-import ImageUpload from "@/components/ImageUpload";
 import InputForm from "@/components/InputForm";
 import Result from "@/components/Result";
 import { RootState } from "@/store";
@@ -22,9 +21,9 @@ const HomeTemplate = ({}) => {
   const [inputData, setInputData] = useState({
     brightness: "",
     saturation: "",
-    indoorOutdoor: "",
-    selfieOther: "",
-    numberOfPeople: "",
+    indoorOutdoor: "indoor",
+    selfieOther: "selfie",
+    numberOfPeople: "1",
   });
   const [result, setResult] = useState<{
     desc: string;
@@ -37,7 +36,6 @@ const HomeTemplate = ({}) => {
   }, []);
   return (
     <div className=" w-11/12 mx-auto max-w-3xl p-4 rounded-lg bg-white">
-      {/* <ImageUpload inputData={inputData} setInputData={setInputData} /> */}
       <ImageAnalyzer inputData={inputData} setInputData={setInputData} />
       <InputForm
         inputData={inputData}
