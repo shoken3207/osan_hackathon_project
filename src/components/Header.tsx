@@ -19,7 +19,7 @@ const Header = () => {
             <span
               className={`text-[26px] font-[500] sm:text-[30px] lg:text-[34px] text-black `}
             >
-              logo
+              moreMatch
             </span>
           </h1>
         </LinkWrap>
