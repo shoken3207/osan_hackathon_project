@@ -1,5 +1,5 @@
 import { InputData } from "@/templates/HomeTemplate";
-import { useState, useRef, Dispatch, SetStateAction } from "react";
+import { useRef, Dispatch, SetStateAction, useState } from "react";
 
 const ImageAnalyzer = ({
   setInputData,
@@ -8,15 +8,8 @@ const ImageAnalyzer = ({
   setInputData: Dispatch<SetStateAction<InputData>>;
   inputData: InputData;
 }) => {
-  const [averageSaturation, setAverageSaturation] = useState<number | null>(
-    null
-  );
-  const [averageBrightness, setAverageBrightness] = useState<number | null>(
-    null
-  );
-  const [previewUrl, setPreviewUrl] = useState("");
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
-
+  const [previewUrl, setPreviewUrl] = useState("");
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (!file) return;
@@ -49,17 +42,12 @@ const ImageAnalyzer = ({
         totalBrightness += hsv[2];
         count++;
       }
-      setInputData({
-        ...inputData,
-        brightness: (totalBrightness / count).toFixed(2),
-        saturation: (totalSaturation / count).toFixed(2),
-      });
-      console.log("data: ", inputData);
-      setAverageSaturation(totalSaturation / count);
-      setAverageBrightness(totalBrightness / count);
+      const sat = (totalSaturation / count).toFixed(2);
+      const bri = (totalBrightness / count).toFixed(2);
+      setInputData({ ...inputData, saturation: sat, brightness: bri });
     };
 
-    // img.src = URL.createObjectURL(file);
+    img.src = URL.createObjectURL(file);
   };
 
   const rgbToHsv = (
@@ -97,16 +85,10 @@ const ImageAnalyzer = ({
   };
 
   return (
-    <div className="mb-4">
+    <div className="mt-4">
       <input type="file" accept="image/*" onChange={handleImageUpload} />
-      <img src={previewUrl} alt="" />
       <canvas ref={canvasRef} style={{ display: "none" }}></canvas>
-      {averageSaturation !== null && averageBrightness !== null && (
-        <div>
-          <p>平均彩度 (Saturation): {averageSaturation.toFixed(2)}</p>
-          <p>平均明度 (Brightness): {averageBrightness.toFixed(2)}</p>
-        </div>
-      )}
+      <img className="max-w-xs max-h-56" src={previewUrl} alt="" />
     </div>
   );
 };

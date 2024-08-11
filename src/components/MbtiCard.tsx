@@ -40,7 +40,7 @@ const MbtiCard = ({
   return (
     <div
       style={{
-        boxShadow: `8px 8px 16px -3px  ${MBTI_BACKGROUND_COLOR[category]};`,
+        boxShadow: `8px 8px 16px -3px  ${MBTI_BACKGROUND_COLOR[category]}`,
         borderColor: MBTI_TEXT_COLOR[category],
       }}
       onClick={(e) => handleClick(e)}
