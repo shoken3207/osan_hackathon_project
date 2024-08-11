@@ -1,18 +1,44 @@
 "use client";
 import MbtiCard from "@/components/MbtiCard";
 import { Button } from "@/components/ui/button";
+import { useToast } from "@/components/ui/use-toast";
 import { GENDER, GENDER_ARRAY, MBTI } from "@/const";
+import { set } from "@/features/userData/userDataSlice";
+import { RootState } from "@/store";
+import { useRouter } from "next/router";
 import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+// import { RootState } from "@/store";
+// import { useSelector } from "react-redux";
 
 const InputProfileTemplate = () => {
+  const user = useSelector((state: RootState) => state.userData);
+  //   const router = useRouter();
   const [gender, setGender] = useState<number>(GENDER.MALE);
   const [selectMbtis, setSelectMbtis] = useState<number[]>([]);
+  const dispatch = useDispatch();
+  const { toast } = useToast();
   const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
     console.log(e.target.value);
     const mbti = MBTI.find(({ id }) => id === Number(e.target.value));
     if (mbti) {
       setSelectMbtis(mbti.goodCompatibilityMbtis);
     }
+  };
+
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.preventDefault();
+    console.log("user* ", user, selectMbtis);
+    if (selectMbtis.length === 0) {
+      toast({
+        variant: "destructive",
+        description:
+          "「あなたと相性が良いまたは、好みのMBTI」が選択されていません。",
+      });
+      return;
+    }
+    dispatch(set({ gender, goodCompatibilityMbtis: selectMbtis }));
+    // router.push("/");
   };
   return (
     <div className=" w-11/12 mx-auto max-w-4xl p-4 rounded-lg bg-white">
@@ -64,7 +90,9 @@ const InputProfileTemplate = () => {
           </div>
         </div>
         <div className="flex justify-end">
-          <Button size="lg">登録</Button>
+          <Button onClick={(e) => handleClick(e)} size="lg">
+            診断に進む
+          </Button>
         </div>
       </div>
     </div>
