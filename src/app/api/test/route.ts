@@ -2,23 +2,31 @@ import OpenAI from "openai";
 import { NextResponse } from "next/server";
 import { NextApiRequest, NextApiResponse } from "next";
 
-export async function POST(req: NextApiRequest, res: NextApiResponse) {
+export async function POST(req: any, res: NextApiResponse) {
   const {
     brightness,
     saturation,
     indoorOutdoor,
     selfieOther,
     numberOfPeople,
+    goodMbti,
   }: {
     brightness: number;
     saturation: number;
     indoorOutdoor: string;
     selfieOther: string;
     numberOfPeople: number;
-  } = req.body;
+    goodMbti:string[];
+  } = await req.json();
+  console.log(brightness,
+    saturation,
+    indoorOutdoor,
+    selfieOther,
+    numberOfPeople,
+    goodMbti)
   try {
-    const text = `${brightness},${saturation},${indoorOutdoor},${selfieOther},${numberOfPeople}`;
-    console.log("req: ", req.body);
+const text = `brightness:${brightness},saturation:${saturation},indoorOutdoor:${indoorOutdoor},selfieOther:${selfieOther},numberOfPeople:${numberOfPeople},goodMbti:${goodMbti}`;
+    console.log(text)
     console.log("env: ", process.env.API_KEY);
     const client = new OpenAI({
       apiKey: process.env.API_KEY,
@@ -29,6 +37,16 @@ export async function POST(req: NextApiRequest, res: NextApiResponse) {
           {
             role: "system",
             content: `
+                     ${text}
+                    上記のデータは、ユーザーが投稿したい画像の明度、彩度、屋内か屋外か、自撮りか他撮りか、人数、好まれたいMBTIが格納されています。下記の分析結果をもとに、goodMbtiに好印象を与えるためのアドバイスを与えてください。
+                    形式は下記の通りでお願いします。アドバイスとアドバイスの間には改行を必ずしてください
+                    <形式>
+                    あなたは下記のような工夫を加えると(ここには上記のgoodMbtiのデータの中身を入れてください)により良い印象を与えることができます。\n
+                    1. アドバイス
+                    2. アドバイス
+                    3.アドバイス
+                    これらのポイントを参考にして、自信を持って投稿してみてくださいね！
+                    <分析結果>
                     1. ENFJ好む傾向: ENFJは外向的で他者とのつながりを重視するため、明るく、他撮りで、複数人が写っている画像を好む傾向が強いです。彩度も高い方が好まれます。
                     2. ENFP好む傾向: ENFPは冒険心が強く、屋外で撮られたカラフルな画像を好む傾向があります。自撮りでも他撮りでも、楽しさや自由さが感じられる写真が好まれるでしょう。
                     3. ENTJ好む傾向: ENTJは構造や秩序を重んじるため、シンプルで明確な構図の画像を好みます。明度が高いことも好まれ、他撮りで少人数が写っている写真に好感を持つ可能性が高いです。
@@ -44,13 +62,8 @@ export async function POST(req: NextApiRequest, res: NextApiResponse) {
                     13. ISFJ好む傾向: ISFJは伝統や安定を重視するため、温かく、親しみやすい画像を好みます。低彩度で落ち着いた明度の写真、屋内で少人数が写っている写真が好まれる傾向があります。
                     14. ISFP好む傾向: ISFPは感受性が高く、温かさや個性が感じられる画像を好みます。自然な明度と彩度、少人数または一人が写っているシンプルな写真が特に好まれます。
                     15. ISTJ好む傾向: ISTJは実用的で、シンプルで明確な画像を好みます。明るい明度で、他撮りの少人数が写っている写真が特に好まれます。
-                    16. ISTP好む傾向: ISTPは冷静で観察力が高いため、中立的な彩度と明度の画像を好みます。シンプルで構造的な画像が好まれ、特に屋内で少人数が写っている写真に好感を持つことが多いです。
-                    このあとユーザーから下記のデータ形式で画像の明度、彩度、屋内か屋外か、自撮りか他撮りか、人数が送られてくるので、好まれたいmbtiをもとにアドバイスをしてください。
-                    好まれたいmbtiはISTJとします。
-                    ${brightness},${saturation},${indoorOutdoor},${selfieOther},${numberOfPeople}
-                    `,
-          },
-          { role: "user", content: text },
+                    16. ISTP好む傾向: ISTPは冷静で観察力が高いため、中立的な彩度と明度の画像を好みます。シンプルで構造的な画像が好まれ、特に屋内で少人数が写っている写真に好感を持つことが多いです。`,
+          }
         ],
         model: "gpt-4o-mini",
       })

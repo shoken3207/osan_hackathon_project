@@ -3,9 +3,11 @@ import { InputData } from "@/templates/HomeTemplate";
 import { Dispatch, SetStateAction } from "react";
 import { Button } from "./ui/button";
 import axios from "axios";
-import { BASE_URL } from "@/const";
+import { BASE_URL, MBTI } from "@/const";
 import { Result } from "./Result";
 import { useToast } from "./ui/use-toast";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store";
 
 const InputForm = ({
   setInputData,
@@ -17,6 +19,13 @@ const InputForm = ({
   inputData: InputData;
 }) => {
   const { toast } = useToast();
+  const user = useSelector((state: RootState) => state.userData);
+  console.log(user.goodCompatibilityMbtis);
+  const mbtiNames = user.goodCompatibilityMbtis.map(x => {
+    const mbti = MBTI.find(({id}) => id === x);
+    return mbti?.name_en
+  })
+  console.log(mbtiNames)
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const {
@@ -42,10 +51,11 @@ const InputForm = ({
     try {
       // APIへのリクエストを送信
       console.log("inputData: ", inputData);
-      const response = await axios.post(`${BASE_URL}/api/test`, inputData);
-      console.log("Response:", response.data);
+      const response = await axios.post(`${BASE_URL}/api/test`, {...inputData, goodMbti: mbtiNames});
+      console.log("Response:", response.data.name.choices[0].message.content);
+      const text = response.data.name.choices[0].message.content
       setResult({
-        desc: "aaaaaaaaaaaaaaa",
+        desc: text,
         mbtiList: [
           { mbtiId: 8, value: 93 },
           { mbtiId: 10, value: 68 },
@@ -72,71 +82,69 @@ const InputForm = ({
   };
 
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        <label>
-          明るさ:
+    <div className="form-container">
+      <form onSubmit={handleSubmit} className="form">
+        <div className="form-group">
+          <label htmlFor="brightness">明るさ:</label>
           <input
+            id="brightness"
+            type="number"
             value={inputData.brightness}
-            onChange={(e) =>
-              setInputData({ ...inputData, brightness: e.target.value })
-            }
+            onChange={(e) => setInputData({ ...inputData, brightness: e.target.value })}
+            className="input"
           />
-        </label>
-        <br />
-        <label>
-          彩度:
+        </div>
+        <div className="form-group">
+          <label htmlFor="saturation">彩度:</label>
           <input
+            id="saturation"
+            type="number"
             value={inputData.saturation}
-            onChange={(e) =>
-              setInputData({ ...inputData, saturation: e.target.value })
-            }
+            onChange={(e) => setInputData({ ...inputData, saturation: e.target.value })}
+            className="input"
           />
-        </label>
-        <br />
-        <label>
-          屋内写真と屋外写真のどちらですか？
+        </div>
+        <div className="form-group">
+          <label htmlFor="indoorOutdoor">屋内写真と屋外写真のどちらですか？</label>
           <select
+            id="indoorOutdoor"
             value={inputData.indoorOutdoor}
-            onChange={(e) =>
-              setInputData({ ...inputData, indoorOutdoor: e.target.value })
-            }
+            onChange={(e) => setInputData({ ...inputData, indoorOutdoor: e.target.value })}
+            className="select"
           >
             <option value="">Select one</option>
-            <option value="indoor">Indoor</option>
-            <option value="outdoor">Outdoor</option>
+            <option value="indoor">屋内写真</option>
+            <option value="outdoor">屋外写真</option>
           </select>
-        </label>
-        <br />
-        <label>
-          自撮り写真と他撮り写真のどちらですか？:
+        </div>
+        <div className="form-group">
+          <label htmlFor="selfieOther">自撮り写真と他撮り写真のどちらですか？</label>
           <select
+            id="selfieOther"
             value={inputData.selfieOther}
-            onChange={(e) =>
-              setInputData({ ...inputData, selfieOther: e.target.value })
-            }
+            onChange={(e) => setInputData({ ...inputData, selfieOther: e.target.value })}
+            className="select"
           >
             <option value="">Select one</option>
             <option value="selfie">自撮り</option>
             <option value="other">他撮り</option>
           </select>
-        </label>
-        <br />
-        <label>
-          人数:
+        </div>
+        <div className="form-group">
+          <label htmlFor="numberOfPeople">人数:</label>
           <input
+            id="numberOfPeople"
             type="number"
             value={inputData.numberOfPeople}
-            onChange={(e) =>
-              setInputData({ ...inputData, numberOfPeople: e.target.value })
-            }
+            onChange={(e) => setInputData({ ...inputData, numberOfPeople: e.target.value })}
+            className="input"
           />
-        </label>
-        <br />
-        <Button type="submit">Submit</Button>
+        </div>
+        <Button type="submit" className="submit-button">Submit</Button>
       </form>
     </div>
   );
 };
 
 export default InputForm;
+
