@@ -157,8 +157,9 @@ const InputForm = ({
             className="input"
           />
         </div>
+
         <Button type="submit" className="submit-button">
-          Submit
+          アドバイスをもらう
         </Button>
       </form>
     </div>
